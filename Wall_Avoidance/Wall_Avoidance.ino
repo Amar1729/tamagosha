@@ -92,11 +92,19 @@ unsigned int look_right() {
   }
 }
 
+void forward() {
+	drive(0.5);
+	turn(0.0);
+}
+
 // Take a 3point left turn
 void fix_forward() {}
 
 // Swivel to the left slightly
-void fix_right() {}
+void fix_right() {
+	turn(-1.0);
+	delay(500);
+}
 
 
 // dir:   [-1.0, +1.0]
