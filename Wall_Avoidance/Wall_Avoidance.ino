@@ -10,6 +10,10 @@ const int right = 3; // yellow
 const int triggerPin = 12;
 const int echoPin = 13;
 
+//Sound port
+const int sound = 4;
+const int freq = 1865;
+
 void setup() {
   Serial.begin(9600);
 
@@ -28,6 +32,7 @@ void setup() {
   digitalWrite(11, HIGH);
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  randomSeed(analogRead(0));
 
 
   // Give time to power on car, remove hands
@@ -100,7 +105,37 @@ void forward() {
 
 // Take a 3point left turn
 void fix_forward() {
-	//turn left, move forward slightly
+    long beep_number = random(3);
+    //turn left, move forward slightly
+    long beep_dur1;
+    long beep_dur2;
+    long new_random;
+
+        if (beep_number < 1){
+            beep_dur1 = random(4);
+            beep_dur2 = random(4);
+            new_random = (beep_dur1+beep_dur2)/2;
+            buzz(sound, freq, new_random*100);
+            delay(100*new_random/4);
+        }
+
+        if (beep_number < 2){
+            beep_dur1 = random(4);
+            beep_dur2 = random(4);
+            new_random = (beep_dur1+beep_dur2)/2;
+            buzz(sound, freq, new_random*100);
+            delay(100*new_random/4);
+        }
+
+        if (beep_number < 3){
+            beep_dur1 = random(4);
+            beep_dur2 = random(4);
+            new_random = (beep_dur1+beep_dur2)/2;
+            buzz(sound, freq, new_random*100);
+            //delay(100*new_random/4);
+        }
+    }
+        
 	turn(-1.0);
 	drive(0.25);
 	delay(700);
@@ -181,3 +216,19 @@ void Circle(double radius) {
   drive(0.0);
 }
 
+void buzz(int targetPin, long frequency, long length) {
+  digitalWrite(13, HIGH);
+  long delayValue = 10000000 / frequency / 2; // calculate the delay value between transitions
+  //// 1 second's worth of microseconds, divided by the frequency, then split in half since
+  //// there are two phases to each cycle
+  long numCycles = frequency * length / 1000; // calculate the number of cycles for proper timing
+  //// multiply frequency, which is really cycles per second, by the number of seconds to
+  //// get the total number of cycles to produce
+  for (long i = 0; i < numCycles; i++) { // for the calculated length of time...
+    digitalWrite(targetPin, HIGH); // write the buzzer pin high to push out the diaphram
+    delayMicroseconds(delayValue); // wait for the calculated delay value
+    digitalWrite(targetPin, LOW); // write the buzzer pin low to pull back the diaphram
+    delayMicroseconds(delayValue); // wait again or the calculated delay value
+  }
+  digitalWrite(13, LOW);
+}
