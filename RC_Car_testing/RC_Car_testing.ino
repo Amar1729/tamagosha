@@ -18,48 +18,35 @@ void setup() {
   turn(0.0);
 
   // Give time to power on car, move hands
-  //delay(3000);
+  delay(3000);
 }
 
 void loop() {
-/*
-  // Forward for a bit
-  drive(0.4);
-  delay(1000);
-  drive(0.0);
-  delay(500);
-  drive(-0.4);
-  delay(1000);
-  drive(0.0);
-  delay(1000);
+  // Drive forward until we hit something?
+  forward();
 
-  drive(0.7);
-  delay(800);
-*/
+  unsigned int clear_front = 0;
+  unsigned int clear_right = 0;
 
-  //drive(0.2);
-  //turn(0.8);
+  while(clear_front==0 && clear_right==0) {
+    clear_front = look_forward();
+    clear_right = look_right();
+  }
 
-  //turn(1.0);
-  turn(0.6);
-  delay(500);
-  turn(1);
-  delay(500);
-  turn(0.6);
-  delay(500);
-  turn(0.0);
-  delay(500);
-  
-  turn(-0.5);
-  turn(-0.1);
-  delay(500);
-  turn(0.0);
-  delay(500);
+  if(clear_right == 1) {
+    fix_right();
+  }
 
-  //Circle(3);
-  
-  
+  if(clear_front == 1) {
+    fix_forward();
+  }
 }
+
+unsigned int look_forward() {}
+unsigned int look_right() {}
+void fix_forward() {}
+void fix_right() {}
+
 
 // dir:   [-1.0, +1.0]
 // represents backward/forward in sign
