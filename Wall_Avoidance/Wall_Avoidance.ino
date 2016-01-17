@@ -230,10 +230,14 @@ void Circle(double radius) {
   drive(0.0);
 }
 
+//do a trick
 void tip() {
   drive(1.0);
   delay(1200);
   turn(1.0);
+  drive(-1.0);
+  delay(50);
+  drive(1.0);
   delay(1000);
   drive(0.0);
   turn(0.0);
