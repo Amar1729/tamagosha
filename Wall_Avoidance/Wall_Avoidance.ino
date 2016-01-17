@@ -35,8 +35,7 @@ void setup() {
   randomSeed(analogRead(0));
 
   // Initialize sound
-  pineMode(sound, OUTPUT);
-
+  pinMode(sound, OUTPUT);
 
   // Give time to power on car, remove hands
   delay(3000);
@@ -108,40 +107,43 @@ void forward() {
 
 // Take a 3point left turn
 void fix_forward() {
-    long beep_number = random(3);
-    //turn left, move forward slightly
-    long beep_dur1;
-    long beep_dur2;
-    long new_random;
+    delay(100);
+    
+    int beep_number = random(3);
+    int beep_dur1;
+    int beep_dur2;
+    int new_random;
 
+  // Stop moving
 	turn(0.0);
 	drive(0.0);
 
-        if (beep_number < 1){
-            beep_dur1 = random(4);
-            beep_dur2 = random(4);
+        // Beep in a confused manner
+        if (beep_number < 1) {
+            beep_dur1 = random(1,5);
+            beep_dur2 = random(1,5);
             new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*100);
+            buzz(sound, freq, new_random*10);
             delay(100*new_random/4);
         }
 
-        if (beep_number < 2){
-            beep_dur1 = random(4);
-            beep_dur2 = random(4);
+        if (beep_number < 2) {
+            beep_dur1 = random(1,5);
+            beep_dur2 = random(1,5);
             new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*100);
+            buzz(sound, freq, new_random*20);
             delay(100*new_random/4);
         }
 
-        if (beep_number < 3){
-            beep_dur1 = random(4);
-            beep_dur2 = random(4);
+        if (beep_number < 3) {
+            beep_dur1 = random(1,5);
+            beep_dur2 = random(1,5);
             new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*100);
+            buzz(sound, freq, new_random*30);
             //delay(100*new_random/4);
         }
-    }
-        
+
+  // 3-point turn, finally head left of original direction
 	turn(-1.0);
 	drive(0.25);
 	delay(700);
@@ -155,7 +157,7 @@ void fix_forward() {
 	delay(500);
 }
 
-// Swivel to the left slightly
+// Swivel to the left slightly (away from right sensor)
 void fix_right() {
 	turn(-1.0); // Get away from wall
 	delay(300);
