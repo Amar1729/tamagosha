@@ -50,6 +50,7 @@ void loop() {
     fix_right();
   }
 
+  clear_front = look_forward();
   if(clear_front == 1) {
     fix_forward();
   }
@@ -74,7 +75,7 @@ unsigned int look_forward() {
 // Divide by two (parallax of sensor)
   cm = duration / 29 / 2;
 
-  if (cm < 10) {
+  if (cm < 30) {
     return 1; // too close!
   }
   else {
@@ -102,23 +103,25 @@ void fix_forward() {
 	//turn left, move forward slightly
 	turn(-1.0);
 	drive(0.25);
-	delay(500);
+	delay(700);
 	//turn right, reverse
 	turn(1.0);
 	drive(-0.7);
-	delay(300);
+	delay(1300);
 	//turn left, move forward
 	turn(-1.0);
 	drive(0.7);
-	delay(300);
+	delay(500);
 }
 
 // Swivel to the left slightly
 void fix_right() {
-	turn(-1.0);
+	turn(-1.0); // Get away from wall
 	delay(300);
+  turn(0.5);  // Don't overcorrect
+  delay(100);
+  turn(0.0);  // Straighten out
 }
-
 
 // dir:   [-1.0, +1.0]
 // represents backward/forward in sign
