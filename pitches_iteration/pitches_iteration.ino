@@ -88,8 +88,8 @@ int all_notes[] = {
 4186,
 4435,
 4699,
-4978,
-}
+4978
+};
 
 void setup() {
 // initialize serial communication:

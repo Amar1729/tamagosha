@@ -1,11 +1,12 @@
 // DragonHacks 2016
 //
-// 
+// Amar, Matt, Sergey
 
 ////////////////////////////////
 // Following code is defined for the speaker
-#include "pitches.h"
-#define melodyPin 4;
+#include "pitches.h";
+//#define melodyPin 4;
+int melodyPin = 4;
 
 //Mario main theme melody
 int melody[] = {
@@ -135,6 +136,7 @@ void setup() {
   //  will play when we want them to ... ?
   //sing the tunes
   sing(1);  // super mario
+  delay(1000);
   sing(2);  // underworld
 }
 
