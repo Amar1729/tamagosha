@@ -39,6 +39,8 @@ void setup() {
 
   // Give time to power on car, remove hands
   delay(3000);
+  tip();
+  delay(3000);
 }
 
 void loop() {
@@ -55,9 +57,9 @@ void loop() {
 
   if(clear_right == 1) {
     fix_right();
+    clear_front = look_forward();
   }
-
-  clear_front = look_forward();
+  
   if(clear_front == 1) {
     fix_forward();
   }
@@ -107,41 +109,41 @@ void forward() {
 
 // Take a 3point left turn
 void fix_forward() {
-    delay(100);
-    
-    int beep_number = random(3);
-    int beep_dur1;
-    int beep_dur2;
-    int new_random;
+  delay(100);
+  
+  int beep_number = random(3);
+  int beep_dur1;
+  int beep_dur2;
+  int new_random;
 
   // Stop moving
 	turn(0.0);
 	drive(0.0);
 
-        // Beep in a confused manner
-        if (beep_number < 1) {
-            beep_dur1 = random(1,5);
-            beep_dur2 = random(1,5);
-            new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*10);
-            delay(100*new_random/4);
-        }
+  // Beep in a confused manner
+  if (beep_number < 1) {
+    beep_dur1 = random(1,5);
+    beep_dur2 = random(1,5);
+    new_random = (beep_dur1+beep_dur2)/2;
+    buzz(sound, freq, new_random*10);
+    delay(100*new_random/4);
+  }
 
-        if (beep_number < 2) {
-            beep_dur1 = random(1,5);
-            beep_dur2 = random(1,5);
-            new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*20);
-            delay(100*new_random/4);
-        }
+  if (beep_number < 2) {
+    beep_dur1 = random(1,5);
+    beep_dur2 = random(1,5);
+    new_random = (beep_dur1+beep_dur2)/2;
+    buzz(sound, freq, new_random*20);
+    delay(100*new_random/4);
+  }
 
-        if (beep_number < 3) {
-            beep_dur1 = random(1,5);
-            beep_dur2 = random(1,5);
-            new_random = (beep_dur1+beep_dur2)/2;
-            buzz(sound, freq, new_random*30);
-            //delay(100*new_random/4);
-        }
+  if (beep_number < 3) {
+    beep_dur1 = random(1,5);
+    beep_dur2 = random(1,5);
+    new_random = (beep_dur1+beep_dur2)/2;
+    buzz(sound, freq, new_random*30);
+    //delay(100*new_random/4);
+  }
 
   // 3-point turn, finally head left of original direction
 	turn(-1.0);
@@ -172,11 +174,13 @@ void fix_right() {
 void drive(float dir) {
   // Backward
   if (dir < 0.0) {
+    if (dir < 1.0) dir = -1.0;
     analogWrite( back, abs(dir)*255 );
     analogWrite( ford, 0 );
   }
   // Forward
   else if (dir > 0.0) {
+    if (dir > 1.0) dir = 1.0;
     analogWrite( ford, dir*255 );
     analogWrite( back, 0 );
   }
@@ -196,6 +200,7 @@ void drive(float dir) {
 void turn(float dir) {
   // Left
   if (dir < 0.0) {
+    if (dir < 1.0) dir = -1.0;
     analogWrite(left, abs(dir)*255);
     analogWrite(right, 0);
     //delay(); //based on |dir|
@@ -203,6 +208,7 @@ void turn(float dir) {
   }
   // Right
   else if(dir > 0.0) {
+    if (dir > 1.0) dir = 1.0;
     analogWrite(right, dir*255);
     analogWrite(left, 0);
     //delay(); //based on |dir|
@@ -222,6 +228,15 @@ void Circle(double radius) {
   delay(1000);
   turn(0.0);
   drive(0.0);
+}
+
+void tip() {
+  drive(1.0);
+  delay(1200);
+  turn(1.0);
+  delay(1000);
+  drive(0.0);
+  turn(0.0);
 }
 
 void buzz(int targetPin, long frequency, long length) {
