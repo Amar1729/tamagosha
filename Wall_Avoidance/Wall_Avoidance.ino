@@ -114,6 +114,9 @@ void fix_forward() {
     long beep_dur2;
     long new_random;
 
+	turn(0.0);
+	drive(0.0);
+
         if (beep_number < 1){
             beep_dur1 = random(4);
             beep_dur2 = random(4);
