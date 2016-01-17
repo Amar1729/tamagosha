@@ -62,9 +62,9 @@ unsigned int look_forward() {
 // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
 // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(triggerPin, LOW);
-  delayMicroseconds(2);           // get rid of delay()
+  delayMicroseconds(2);           // get rid of delay() ?
   digitalWrite(triggerPin, HIGH);
-  delayMicroseconds(5);           // get rid of delay()
+  delayMicroseconds(5);           // get rid of delay() ?
   digitalWrite(triggerPin, LOW);
 
 // duration of HIGH pulse
