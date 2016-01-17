@@ -11,7 +11,7 @@ const int triggerPin = 12;
 const int echoPin = 13;
 
 //Sound port
-const int sound = 4;
+const int sound = 10;
 const int freq = 1865;
 
 void setup() {
@@ -33,6 +33,9 @@ void setup() {
   pinMode(triggerPin, OUTPUT);
   pinMode(echoPin, INPUT);
   randomSeed(analogRead(0));
+
+  // Initialize sound
+  pineMode(sound, OUTPUT);
 
 
   // Give time to power on car, remove hands
