@@ -1,13 +1,19 @@
+#include "math.h"
+
+// Motors
 const int ford = 9;  // orange
 const int back = 6;  // blue
 const int left = 5;  // black
 const int right = 3; // yellow
 
-#include "math.h"
+// Ultrasound sensor
+const int triggerPin = 12;
+const int echoPin = 13;
 
 void setup() {
   Serial.begin(9600);
-  
+
+  // Initialize motors
   pinMode(ford, OUTPUT);
   pinMode(back, OUTPUT);
   pinMode(left, OUTPUT);
@@ -17,7 +23,14 @@ void setup() {
   drive(0.0);
   turn(0.0);
 
-  // Give time to power on car, move hands
+  // Start ultrasonic sensor
+  pinMode(11, OUTPUT);
+  digitalWrite(11, HIGH);
+  pinMode(triggerPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+
+  // Give time to power on car, remove hands
   delay(3000);
 }
 
@@ -42,9 +55,47 @@ void loop() {
   }
 }
 
-unsigned int look_forward() {}
-unsigned int look_right() {}
+// Watch out in front of you!
+unsigned int look_forward() {
+  long duration, cm;
+
+// The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
+// Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);           // get rid of delay()
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(5);           // get rid of delay()
+  digitalWrite(triggerPin, LOW);
+
+// duration of HIGH pulse
+  duration = pulseIn(echoPin, HIGH);
+  
+// Speed of sound = 340 m/s = 29 us/cm
+// Divide by two (parallax of sensor)
+  cm = duration / 29 / 2;
+
+  if (cm < 10) {
+    return 1; // too close!
+  }
+  else {
+    return 0; // we're good
+  }
+}
+
+// Checks to the right of the car
+unsigned int look_right() {
+  if (analogRead(A5)==0) {
+    return 1; // too close!
+  }
+  else {
+    return 0; // we're good
+  }
+}
+
+// Take a 3point left turn
 void fix_forward() {}
+
+// Swivel to the left slightly
 void fix_right() {}
 
 
