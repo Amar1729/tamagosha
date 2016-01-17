@@ -98,12 +98,25 @@ void forward() {
 }
 
 // Take a 3point left turn
-void fix_forward() {}
+void fix_forward() {
+	//turn left, move forward slightly
+	turn(-1.0);
+	drive(0.25);
+	delay(500);
+	//turn right, reverse
+	turn(1.0);
+	drive(-0.7);
+	delay(300);
+	//turn left, move forward
+	turn(-1.0);
+	drive(0.7);
+	delay(300);
+}
 
 // Swivel to the left slightly
 void fix_right() {
 	turn(-1.0);
-	delay(500);
+	delay(300);
 }
 
 
