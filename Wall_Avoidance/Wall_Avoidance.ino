@@ -12,7 +12,7 @@ const int echoPin = 13;
 
 //Sound port
 const int sound = 10;
-const int freq = 1865;
+const int freq = /*1865*/3729;
 
 void setup() {
   Serial.begin(9600);
@@ -238,6 +238,7 @@ void Circle(double radius) {
   drive(0.0);
 }
 
+//do a trick
 void tip() {
   drive(1.0);
   delay(1200);
