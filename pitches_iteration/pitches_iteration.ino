@@ -98,17 +98,35 @@ void setup() {
   // Initialize range sensor-pertinent values
   pinMode(11, OUTPUT);
   digitalWrite(11, HIGH);
-  avg = 0;
+//  avg = 0;
 
 // Initialize speaker-pertinent values
   pinMode(4, OUTPUT); //buzzer
 
+  //rave_build();
+  check_notes(60,75);
+}
+
+void loop()
+{
+}
+
+void check_notes(int i, int j) {
+  for (int NOTE = i; NOTE < j; NOTE++) {
+    Serial.println(NOTE);
+    buzz(4, all_notes[NOTE], 20);
+    delay(6);
+    buzz(4, all_notes[NOTE], 20);
+    delay(50);
+  }
+}
+
+void rave_build() {
   // This should be modified so only certain parts
   //  will play when we want them to ... ?
   //sing the tunes
   for (int NOTE = 0; NOTE < 89; NOTE++)
   {
-      Serial.print(all_notes[NOTE]);
       buzz(4, all_notes[NOTE], 20);
       delay(6);
       buzz(4, all_notes[NOTE], 20);
@@ -116,13 +134,9 @@ void setup() {
   }
 }
 
-void loop()
-{
-}
-
 void buzz(int targetPin, long frequency, long length) {
   digitalWrite(13, HIGH);
-  long delayValue = 1000000 / frequency / 2; // calculate the delay value between transitions
+  long delayValue = 10000000 / frequency / 2; // calculate the delay value between transitions
   //// 1 second's worth of microseconds, divided by the frequency, then split in half since
   //// there are two phases to each cycle
   long numCycles = frequency * length / 1000; // calculate the number of cycles for proper timing
