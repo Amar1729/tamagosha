@@ -38,14 +38,14 @@ void setup() {
   pinMode(sound, OUTPUT);
 
   // Give time to power on car, remove hands
-  delay(3000);
-  tip();
+  //delay(3000);
+  //tip();
   delay(3000);
 }
 
 void loop() {
   // Drive forward until we hit something?
-  forward();
+  forward(0.5);
 
   unsigned int clear_front = 0;
   unsigned int clear_right = 0;
@@ -53,6 +53,11 @@ void loop() {
   while(clear_front==0 && clear_right==0) {
     clear_front = look_forward();
     clear_right = look_right();
+  }
+
+  if(clear_front == 2) {
+    forward(0.3);
+    clear_front = look_forward();
   }
 
   if(clear_right == 1) {
@@ -87,6 +92,9 @@ unsigned int look_forward() {
   if (cm < 30) {
     return 1; // too close!
   }
+  else if (cm < 60) {
+    return 2;
+  }
   else {
     return 0; // we're good
   }
@@ -102,8 +110,8 @@ unsigned int look_right() {
   }
 }
 
-void forward() {
-	drive(0.5);
+void forward(float speed) {
+	drive(speed);
 	turn(0.0);
 }
 
@@ -152,7 +160,7 @@ void fix_forward() {
 	//turn right, reverse
 	turn(1.0);
 	drive(-0.7);
-	delay(1300);
+	delay(1000);
 	//turn left, move forward
 	turn(-1.0);
 	drive(0.7);
